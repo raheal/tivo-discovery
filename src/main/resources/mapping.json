@@ -1,0 +1,16 @@
+{
+	"entries": [
+		{
+			"name" : "default",
+			"regex" : ".ts",
+			"matchType" : "contains",
+			"adapter": "devtools"
+		},
+		{
+			"name" : "test",
+			"regex" : "",
+			"matchType" : "find",
+			"adapter": "devtools"
+		}
+	]
+}
