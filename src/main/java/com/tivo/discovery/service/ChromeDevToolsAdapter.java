@@ -25,9 +25,7 @@ public class ChromeDevToolsAdapter implements NetworkMediaAdapter{
 	public String findMedia(String url, DiscoveryConfig config) {
 		
 		LOGGER.info("Running chrome developer tools for URL : {}", url);
-		
 		final Set<String> detectedLinks = new HashSet<>();
-		
 		final Result result = new Result();
 		System.setProperty("webdriver.chrome.driver", config.getChromeDriverPath());
 		ChromeOptions options = new ChromeOptions();
@@ -44,26 +42,24 @@ public class ChromeDevToolsAdapter implements NetworkMediaAdapter{
 
         //add event listener to verify that css and png are blocked
         chromeDevTools.addListener(Network.requestWillBeSent(), responseReceived -> {
-        	
         	if (config.getMappingEntry().getMatchType().equals("contains")) {
         		if (responseReceived.getRequest().getUrl().contains(config.getMappingEntry().getRegex())) {
-            	//	result.setUrlResult(responseReceived.getRequest().getUrl());
         			detectedLinks.add(responseReceived.getRequest().getUrl());
             	}
         	}
-        	
-        	System.out.println("OUT>> "+responseReceived.getRequest().getUrl());
         });
        
 		chromeDriver.get(url);
-		chromeDriver.findElementByXPath("/html/body/div[10]/div/div[3]/div[1]/div[1]/div[1]/div[1]").click();
+		if (config.getMappingEntry().getXpathClick() != null) {
+			chromeDriver.findElementByXPath(config.getMappingEntry().getXpathClick()).click();
+		}
 		chromeDevTools.close();
 		chromeDriver.quit();
-		System.out.println("Error: END");
+		LOGGER.info("Status: END");
 		if (detectedLinks.size() > 0) {
 			result.setUrlResult(detectedLinks.stream().findFirst().get());
 		}
-		System.out.println("Result = "+result.getUrlResult());
+		LOGGER.info("Result = "+result.getUrlResult());
 		return result.getUrlResult();
 	}
 

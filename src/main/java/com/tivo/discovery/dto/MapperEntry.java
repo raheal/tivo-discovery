@@ -14,4 +14,8 @@ public class MapperEntry {
 	private String adapter;
 	
 	private String matchType;
+	
+	private String xpathClick;
+	
+	private boolean stream;
 }

@@ -4,12 +4,16 @@
 			"name" : "default",
 			"regex" : ".ts",
 			"matchType" : "contains",
+			"xpathClick" : null,
+			"stream" : true,
 			"adapter": "devtools"
 		},
 		{
 			"name" : "test",
 			"regex" : "",
 			"matchType" : "find",
+			"xpathClick" : "/html/body/div[10]/div/div[3]/div[1]/div[1]/div[1]/div[1]",
+			"stream" : true,
 			"adapter": "devtools"
 		}
 	]

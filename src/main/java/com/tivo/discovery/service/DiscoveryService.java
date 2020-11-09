@@ -7,4 +7,6 @@ public interface DiscoveryService {
 
 	DiscoveryResponse submitDiscoveryRequest(final DiscoveryRequest request);
 	
+	DiscoveryResponse getDiscoveryLink(final DiscoveryRequest request);
+	
 }

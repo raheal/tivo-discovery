@@ -1,6 +1,5 @@
 package com.tivo.discovery.service;
 
-import java.io.File;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -9,10 +8,10 @@ import javax.annotation.PreDestroy;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tivo.discovery.dto.DiscoveryConfig;
 import com.tivo.discovery.dto.DiscoveryRequest;
 import com.tivo.discovery.dto.Mapper;
@@ -24,26 +23,29 @@ public class ExecutionEngine {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ExecutionEngine.class);
 	
 	private ExecutorService executorService;
+
+	@Autowired
+	private MappingService mappingService;
 	
 	@Value("${chromedriver.path}")
 	private String chromeDriverPath;
-	
-	@Value("${application.mapping.file.path}")
-	private String mappingFilePath;
-	
-	private Mapper adapterMapper;
+
 	
 	@PostConstruct
 	public void init() {
 		executorService = Executors.newFixedThreadPool(1);
-		adapterMapper = generateMapper();
 	}
 	
 	public void execute(final DiscoveryRequest request) {
-		final MapperEntry selectedMapperEntry = getSelectedMapperEntry(adapterMapper, request.getAdapterName());
+		final MapperEntry selectedMapperEntry = getSelectedMapperEntry(mappingService.getMapper(), request.getAdapterName());
 		executorService.submit(new DiscoveryExecutableTask(request, new DiscoveryConfig(chromeDriverPath, selectedMapperEntry)));
 	}
 	
+	public String executeDiscoveryAndRetrieveLink(final DiscoveryRequest request) {
+		final MapperEntry selectedMapperEntry = getSelectedMapperEntry(mappingService.getMapper(), request.getAdapterName());
+		return new DiscoveryExecutableTask(request, 
+				new DiscoveryConfig(chromeDriverPath, selectedMapperEntry)).retrieveLink();
+	}
 	
 	@PreDestroy
 	public void destroy() {
@@ -61,16 +63,6 @@ public class ExecutionEngine {
 			}
 		}
 		return null;
-	}
-	
-	private Mapper generateMapper() {
-		Mapper mapper = null;
-		try {
-			mapper = new ObjectMapper().readValue(new File(mappingFilePath), Mapper.class);
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
-		}
-		return mapper;
 	}
 	
 }

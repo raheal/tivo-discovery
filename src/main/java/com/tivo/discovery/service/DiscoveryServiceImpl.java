@@ -23,4 +23,20 @@ public class DiscoveryServiceImpl implements DiscoveryService{
 		return response;
 	}
 
+	@Override
+	public DiscoveryResponse getDiscoveryLink(DiscoveryRequest request) {
+		final String discoveryLink = executionEngine.executeDiscoveryAndRetrieveLink(request);
+		final DiscoveryResponse response = new DiscoveryResponse();
+		response.setUrl(request.getUrl());
+		response.setTimestamp(LocalDateTime.now());
+		response.setLink(discoveryLink);
+		if(discoveryLink == null) {
+			response.setStatus("NULL_LINK_RETURNED");
+		}
+		return response;
+		
+	}
+
+	
+	
 }
