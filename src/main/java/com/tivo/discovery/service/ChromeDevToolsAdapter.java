@@ -38,7 +38,7 @@ public class ChromeDevToolsAdapter implements NetworkMediaAdapter{
 		chromeDevTools.send(Network.enable(Optional.empty(), Optional.empty(), Optional.empty()));
 
         //set blocked URL patterns
-        chromeDevTools.send(Network.setBlockedURLs(ImmutableList.of("*.css", "*.png")));
+//        chromeDevTools.send(Network.setBlockedURLs(ImmutableList.of("*.css", "*.png")));
 
         //add event listener to verify that css and png are blocked
         chromeDevTools.addListener(Network.requestWillBeSent(), responseReceived -> {
@@ -52,6 +52,9 @@ public class ChromeDevToolsAdapter implements NetworkMediaAdapter{
 		chromeDriver.get(url);
 		if (config.getMappingEntry().getXpathClick() != null) {
 			chromeDriver.findElementByXPath(config.getMappingEntry().getXpathClick()).click();
+		}
+		if (config.getMappingEntry().getElementById() != null) {
+			chromeDriver.findElementById(config.getMappingEntry().getElementById()).click();
 		}
 		chromeDevTools.close();
 		chromeDriver.quit();

@@ -5,6 +5,7 @@
 			"regex" : ".ts",
 			"matchType" : "contains",
 			"xpathClick" : null,
+			"elementById" : null,
 			"stream" : true,
 			"adapter": "devtools"
 		},
@@ -12,6 +13,7 @@
 			"name" : "test",
 			"regex" : "",
 			"matchType" : "find",
+			"elementById" : null,
 			"xpathClick" : "/html/body/div[10]/div/div[3]/div[1]/div[1]/div[1]/div[1]",
 			"stream" : true,
 			"adapter": "devtools"

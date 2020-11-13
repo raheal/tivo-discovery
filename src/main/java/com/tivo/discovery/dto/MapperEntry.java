@@ -17,5 +17,7 @@ public class MapperEntry {
 	
 	private String xpathClick;
 	
+	private String elementById;
+	
 	private boolean stream;
 }
