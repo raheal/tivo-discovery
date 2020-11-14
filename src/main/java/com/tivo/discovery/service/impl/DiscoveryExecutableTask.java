@@ -34,7 +34,7 @@ public class DiscoveryExecutableTask implements Runnable{
 	public DiscoveryExecutableTask(final DiscoveryRequest request, final DiscoveryConfig config) {
 		this.request = request;
 		this.config = config;
-		this.adapter = NetworkMediaAdapterFactory.getAdapter(request.getAdapterName());
+		this.adapter = NetworkMediaAdapterFactory.getAdapter(config.getMappingEntry().getAdapter());
 	}
 	
 	public String retrieveLink() {

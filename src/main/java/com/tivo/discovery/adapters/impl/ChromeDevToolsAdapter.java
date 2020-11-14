@@ -64,8 +64,11 @@ public class ChromeDevToolsAdapter implements NetworkMediaAdapter{
 			result.setUrlResult(detectedLinks.stream().findFirst().get());
 		}
 		LOGGER.info("Result = "+result.getUrlResult());
-		String resourceTitle = chromeDriver.getTitle();
-		return new AdapterResponse(result.getUrlResult(), resourceTitle);
+		String resourceTitle = null; //left as a null  for now
+		AdapterResponse adapterResponse = new AdapterResponse();
+		adapterResponse.setUrl(result.getUrlResult());
+		adapterResponse.setResourceTitle(resourceTitle);
+		return adapterResponse;
 	}
 
 }
