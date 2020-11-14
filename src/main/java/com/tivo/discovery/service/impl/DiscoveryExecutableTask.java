@@ -8,12 +8,16 @@ import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.tivo.discovery.adapters.NetworkMediaAdapter;
+import com.tivo.discovery.adapters.NetworkMediaAdapterFactory;
 import com.tivo.discovery.adapters.impl.ChromeDevToolsAdapter;
+import com.tivo.discovery.adapters.impl.HtmlSourceCodeAdapter;
 import com.tivo.discovery.builders.DownloadRequestBuilder;
+import com.tivo.discovery.dto.AdapterResponse;
 import com.tivo.discovery.dto.DiscoveryConfig;
 import com.tivo.discovery.dto.DiscoveryRequest;
 import com.tivo.discovery.dto.DownloadRequest;
 import com.tivo.discovery.dto.DownloadResponse;
+import com.tivo.discovery.util.Util;
 
 import reactor.core.publisher.Mono;
 
@@ -30,21 +34,20 @@ public class DiscoveryExecutableTask implements Runnable{
 	public DiscoveryExecutableTask(final DiscoveryRequest request, final DiscoveryConfig config) {
 		this.request = request;
 		this.config = config;
-		this.adapter = new ChromeDevToolsAdapter();
+		this.adapter = NetworkMediaAdapterFactory.getAdapter(request.getAdapterName());
 	}
 	
 	public String retrieveLink() {
-		return adapter.findMedia(request.getUrl(), config);
+		return adapter.findMedia(request.getUrl(), config).getUrl();
 	}
 	
 	public void execute() {
-		String link = adapter.findMedia(request.getUrl(), config);
-		System.out.println("LINK>>> "+link);
-		if (link != null) {
+		final AdapterResponse adapterResponse = adapter.findMedia(request.getUrl(), config);
+		if (adapterResponse.getUrl() != null) {
 			final DownloadRequest request = new DownloadRequestBuilder()
 					.setAutoRestart(false)
-					.setUrl(link)
-					.setOutputFileName(UUID.randomUUID().toString())
+					.setUrl(adapterResponse.getUrl())
+					.setOutputFileName(adapterResponse.getResourceTitle() != null ? Util.truncate(adapterResponse.getResourceTitle(), 30) : UUID.randomUUID().toString())
 					.setStartFileNumber(1)
 					.setEndFileNumber(2000)
 					.setIsStream(config.getMappingEntry().isStream())

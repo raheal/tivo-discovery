@@ -12,8 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import com.google.common.collect.ImmutableList;
 import com.tivo.discovery.adapters.NetworkMediaAdapter;
+import com.tivo.discovery.dto.AdapterResponse;
 import com.tivo.discovery.dto.DiscoveryConfig;
 import com.tivo.discovery.dto.Result;
 
@@ -23,7 +23,7 @@ public class ChromeDevToolsAdapter implements NetworkMediaAdapter{
 	private static final Logger LOGGER = LoggerFactory.getLogger(ChromeDevToolsAdapter.class);
 	
 	@Override
-	public String findMedia(String url, DiscoveryConfig config) {
+	public AdapterResponse findMedia(String url, DiscoveryConfig config) {
 		
 		LOGGER.info("Running chrome developer tools for URL : {}", url);
 		final Set<String> detectedLinks = new HashSet<>();
@@ -64,7 +64,8 @@ public class ChromeDevToolsAdapter implements NetworkMediaAdapter{
 			result.setUrlResult(detectedLinks.stream().findFirst().get());
 		}
 		LOGGER.info("Result = "+result.getUrlResult());
-		return result.getUrlResult();
+		String resourceTitle = chromeDriver.getTitle();
+		return new AdapterResponse(result.getUrlResult(), resourceTitle);
 	}
 
 }
