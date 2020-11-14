@@ -1,4 +1,4 @@
-package com.tivo.discovery.service;
+package com.tivo.discovery.service.impl;
 
 import java.util.UUID;
 
@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import com.tivo.discovery.adapters.NetworkMediaAdapter;
+import com.tivo.discovery.adapters.impl.ChromeDevToolsAdapter;
 import com.tivo.discovery.builders.DownloadRequestBuilder;
 import com.tivo.discovery.dto.DiscoveryConfig;
 import com.tivo.discovery.dto.DiscoveryRequest;

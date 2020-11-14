@@ -1,4 +1,4 @@
-package com.tivo.discovery.service;
+package com.tivo.discovery.adapters;
 
 import com.tivo.discovery.dto.DiscoveryConfig;
 

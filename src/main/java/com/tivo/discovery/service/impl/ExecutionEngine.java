@@ -1,4 +1,4 @@
-package com.tivo.discovery.service;
+package com.tivo.discovery.service.impl;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -16,6 +16,7 @@ import com.tivo.discovery.dto.DiscoveryConfig;
 import com.tivo.discovery.dto.DiscoveryRequest;
 import com.tivo.discovery.dto.Mapper;
 import com.tivo.discovery.dto.MapperEntry;
+import com.tivo.discovery.service.MappingService;
 
 @Component
 public class ExecutionEngine {

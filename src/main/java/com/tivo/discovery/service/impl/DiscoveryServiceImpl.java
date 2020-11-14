@@ -1,4 +1,4 @@
-package com.tivo.discovery.service;
+package com.tivo.discovery.service.impl;
 
 import java.time.LocalDateTime;
 
@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.tivo.discovery.dto.DiscoveryRequest;
 import com.tivo.discovery.dto.DiscoveryResponse;
+import com.tivo.discovery.service.DiscoveryService;
 
 @Service
 public class DiscoveryServiceImpl implements DiscoveryService{

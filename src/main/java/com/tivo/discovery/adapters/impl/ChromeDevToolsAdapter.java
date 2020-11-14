@@ -1,4 +1,4 @@
-package com.tivo.discovery.service;
+package com.tivo.discovery.adapters.impl;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.google.common.collect.ImmutableList;
+import com.tivo.discovery.adapters.NetworkMediaAdapter;
 import com.tivo.discovery.dto.DiscoveryConfig;
 import com.tivo.discovery.dto.Result;
 

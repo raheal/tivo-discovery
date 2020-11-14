@@ -22,8 +22,6 @@ public class TivoDiscoveryController {
 	@Autowired
 	private DiscoveryService discoveryService;
 	
-	@Autowired
-	private MappingService mappingService;
 	
 	@PostMapping("/submit")
 	public DiscoveryResponse submitDiscoveryRequest(@RequestBody DiscoveryRequest request) {
@@ -34,9 +32,5 @@ public class TivoDiscoveryController {
 	public DiscoveryResponse getDiscoveryLink(@RequestBody DiscoveryRequest request) {
 		return discoveryService.getDiscoveryLink(request);
 	}
-	
-	@GetMapping("/mappings")
-	public List<String> getAdapterMappingNames() {
-		return mappingService.getMappingEntries().stream().map(s -> s.getName()).collect(Collectors.toList());
-	}
+
 }
